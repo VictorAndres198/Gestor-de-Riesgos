@@ -1,0 +1,77 @@
+from flask import Flask, render_template, send_file
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+import os
+
+app = Flask(__name__)
+
+likelihood_scale = {
+    'Rare': 1,
+    'Unlikely': 2,
+    'Possible': 3,
+    'Likely': 4,
+    'Almost Certain': 5
+}
+
+impact_scale = {
+    'Insignificant': 1,
+    'Minor': 2,
+    'Moderate': 3,
+    'Major': 4,
+    'Catastrophic': 5
+}
+
+risk_criteria = {
+    'Categories': ['Market Volatility', 'Regulatory Changes', 'Technology Failure', 'Competition', 'Project Management'],
+    'Likelihood': list(likelihood_scale.keys()),
+    'Impact': list(impact_scale.keys())
+}
+
+risks = {
+    'Market Volatility': {'likelihood': 'Likely', 'impact': 'Moderate'},
+    'Regulatory Changes': {'likelihood': 'Possible', 'impact': 'Major'},
+    'Technology Failure': {'likelihood': 'Unlikely', 'impact': 'Minor'},
+    'Competition': {'likelihood': 'Likely', 'impact': 'Minor'},
+    'Project Management': {'likelihood': 'Possible', 'impact': 'Moderate'}
+}
+
+def generate_matrix_image():
+    risk_scores = {}
+    for risk, data in risks.items():
+        risk_scores[risk] = likelihood_scale[data['likelihood']] * impact_scale[data['impact']]
+
+    risk_matrix = pd.DataFrame(
+        index=risk_criteria['Likelihood'], columns=risk_criteria['Impact'])
+    for i in risk_matrix.index:
+        for j in risk_matrix.columns:
+            risk_matrix.loc[i, j] = likelihood_scale[i] * impact_scale[j]
+
+    plt.figure(figsize=(10, 8))
+    sns.heatmap(risk_matrix.astype(int), annot=True, cmap='RdYlGn_r', fmt='d',
+                linewidths=.5, cbar_kws={'label': 'Risk Score'})
+    plt.title('Risk Matrix')
+    plt.xlabel('Impact')
+    plt.ylabel('Likelihood')
+
+    for risk, score in risk_scores.items():
+        likelihood = risks[risk]['likelihood']
+        impact = risks[risk]['impact']
+        plt.text(impact_scale[impact] - 0.5, likelihood_scale[likelihood] - 0.5, risk,
+                 fontsize=8, ha='center', va='center', color='black')
+
+    output_path = os.path.join('static', 'risk_matrix.png')
+    plt.savefig(output_path)
+    plt.close()
+
+@app.route('/')
+def index():
+    generate_matrix_image()
+    return render_template('Inicio.html')
+
+@app.route('/image')
+def get_image():
+    return send_file('static/risk_matrix.png', mimetype='image/png')
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=5000, debug=True)
