@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>Dashboard - SB Admin</title>
+        <title>Dashboard - Admin</title>
         <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
         <link href="{{ url_for('static', filename='css/styles.css') }}" rel="stylesheet" />
         <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
@@ -15,7 +15,7 @@
 
         <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
             <!-- Navbar Brand-->
-            <a class="navbar-brand ps-3" href="{{ url_for('index') }}">Start Bootstrap</a>
+            <a class="navbar-brand ps-3" href="{{ url_for('index') }}">Control de Riesgos</a>
             <!-- Sidebar Toggle-->
             <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
             <!-- Navbar Search-->
@@ -47,7 +47,7 @@
                             <div class="sb-sidenav-menu-heading">Core</div>
                             <a class="nav-link" href="{{ url_for('index') }}">
                                 <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                                Dashboard
+                                Panel de control
                             </a>
                             <div class="sb-sidenav-menu-heading">Interface</div>
                             <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
@@ -105,16 +105,16 @@
                     </div>
                     <div class="sb-sidenav-footer">
                         <div class="small">Logged in as:</div>
-                        Start Bootstrap
+                        Guest
                     </div>
                 </nav>
             </div>
             <div id="layoutSidenav_content">
                 <main>
                     <div class="container-fluid px-4">
-                        <h1 class="mt-4">Dashboard</h1>
+                        <h1 class="mt-4">Panel de control</h1>
                         <ol class="breadcrumb mb-4">
-                            <li class="breadcrumb-item active">Dashboard</li>
+                            <li class="breadcrumb-item active">Vista general de todos los riesgos</li>
                         </ol>
                         <!-- Area Chart -->
                         <div class="row">

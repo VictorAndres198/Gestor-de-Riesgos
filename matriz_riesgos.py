@@ -1,10 +1,13 @@
-from flask import Flask, render_template, send_file
+# matriz_riesgos.py
+from flask import Flask, render_template, send_file, request, redirect, flash
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 import os
+from taiga_api import get_auth_token, create_project
 
 app = Flask(__name__)
+app.secret_key = "mi_clave_super_secreta"  # Puedes poner cualquier cadena segura
 
 likelihood_scale = {
     'Rare': 1,
@@ -116,6 +119,25 @@ def error500():
 @app.route('/inicio')
 def inicio():
     return render_template('Inicio.html')  # Renderiza desde templates/
+
+@app.route('/crear')
+def crear():
+    return render_template('create_project.html')
+
+@app.route('/create_project', methods=['POST'])
+def create_project_route():
+    name = request.form.get('name')
+    description = request.form.get('description')
+
+    try:
+        token = get_auth_token()
+        project = create_project(token, name, description)
+        flash(f"Proyecto '{project['name']}' creado con éxito", "success")
+    except Exception as e:
+        flash(str(e), "danger")
+
+    return redirect('/crear')
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
