@@ -1,8 +1,12 @@
-version: '3'
 services:
-  web:
+  mi-app:
     build: .
+    container_name: mi-app
     ports:
       - "5000:5000"
-    volumes:
-      - .:/app
+    networks:
+      - taiga-docker_taiga
+
+networks:
+  taiga-docker_taiga:
+    external: true

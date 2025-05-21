@@ -1,7 +1,7 @@
 # taiga_api.py
 import requests
 
-TAIGA_API_URL = "http://localhost:9000/api/v1"
+TAIGA_API_URL = "http://taiga-back:8000/api/v1"
 USERNAME = "admin@taiga.local"
 PASSWORD = "123"
 
