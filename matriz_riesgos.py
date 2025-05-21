@@ -4,6 +4,9 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 import os
+import plotly
+import plotly.express as px
+import json
 from taiga_api import get_auth_token, create_project
 
 app = Flask(__name__)
@@ -136,7 +139,43 @@ def create_project_route():
     except Exception as e:
         flash(str(e), "danger")
 
-    return redirect('/crear')
+    return redirect('/')
+
+
+@app.route('/upload', methods=['GET', 'POST'])
+def upload():
+    if request.method == 'POST':
+        file = request.files.get('file')
+        if not file:
+            flash("No se subió ningún archivo", "danger")
+            return redirect(request.url)
+
+        # Lee el Excel
+        try:
+            df = pd.read_excel(file)
+        except Exception as e:
+            flash(f"Error al leer Excel: {e}", "danger")
+            return redirect(request.url)
+
+        # Preprocesamiento
+        df["Nivel de Riesgo"] = df["Probabilidad"] * df["Impacto"]
+        df["Días Activos"] = df.apply(
+            lambda r: (pd.Timestamp.now().date() - r["Fecha de Inicio"]).days
+            if pd.isna(r["Fecha de Fin"]) else (r["Fecha de Fin"] - r["Fecha de Inicio"]).days,
+            axis=1
+        )
+
+        # Genera un gráfico con Plotly y pásalo como JSON
+        fig = px.bar(
+            df, x="Días Activos", y="Riesgo",
+            color="Nivel de Riesgo",
+            title="Duración de los Riesgos"
+        )
+        graphJSON = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
+
+        return render_template('report.html', tables=[df.to_html(classes='table table-striped', index=False)], graphJSON=graphJSON)
+
+    return render_template('charts.html')
 
 
 if __name__ == '__main__':

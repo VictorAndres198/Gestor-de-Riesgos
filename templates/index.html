@@ -95,7 +95,7 @@
                             <div class="sb-sidenav-menu-heading">Addons</div>
                             <a class="nav-link" href="{{ url_for('charts') }}">
                                 <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
-                                Charts
+                                Analisis de Riesgos
                             </a>
                             <a class="nav-link" href="{{ url_for('tables') }}">
                                 <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
@@ -176,8 +176,35 @@
                                 </div>
                             </div>
                         </div>
+
+    <div class="container mt-5 mb-4">
+        <h2>Crear nuevo proyecto en Taiga</h2>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+            <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+            {% endfor %}
+        {% endif %}
+        {% endwith %}
+        <form action="/create_project" method="POST">
+            <div class="mb-3">
+                <label for="name" class="form-label">Nombre del Proyecto</label>
+                <input type="text" class="form-control" id="name" name="name" required />
+            </div>
+            <div class="mb-3">
+                <label for="description" class="form-label">Descripción</label>
+                <textarea class="form-control" id="description" name="description" rows="3"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Crear Proyecto</button>
+        </form>
+    </div>
+
+
                         <!-- Datatable -->
-                        <div class="card mb-4">
+                        <div class="card mb-4 mt-5">
                             <div class="card-header">
                                 <i class="fas fa-table me-1"></i>
                                 DataTable Example

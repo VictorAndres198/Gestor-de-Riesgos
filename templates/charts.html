@@ -13,7 +13,7 @@
     <body class="sb-nav-fixed">
         <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
             <!-- Navbar Brand-->
-            <a class="navbar-brand ps-3" href="{{ url_for('index') }}">Start Bootstrap</a>
+            <a class="navbar-brand ps-3" href="{{ url_for('index') }}">Control de Riesgos</a>
             <!-- Sidebar Toggle-->
             <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
             <!-- Navbar Search-->
@@ -92,7 +92,7 @@
                             <div class="sb-sidenav-menu-heading">Addons</div>
                             <a class="nav-link" href="{{ url_for('charts') }}">
                                 <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
-                                Charts
+                                Analisis de Riesgos
                             </a>
                             <a class="nav-link" href="{{ url_for('tables') }}">
                                 <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
@@ -102,17 +102,17 @@
                     </div>
                     <div class="sb-sidenav-footer">
                         <div class="small">Logged in as:</div>
-                        Start Bootstrap
+                        Guest
                     </div>
                 </nav>
             </div>
             <div id="layoutSidenav_content">
                 <main>
                     <div class="container-fluid px-4">
-                        <h1 class="mt-4">Charts</h1>
+                        <h1 class="mt-4">Analisis de Riesgos</h1>
                         <ol class="breadcrumb mb-4">
-                            <li class="breadcrumb-item"><a href="{{ url_for('index') }}">Dashboard</a></li>
-                            <li class="breadcrumb-item active">Charts</li>
+                            <li class="breadcrumb-item"><a href="{{ url_for('index') }}">Panel de Control</a></li>
+                            <li class="breadcrumb-item active">Analisis de Riesgos</li>
                         </ol>
                         <div class="card mb-4">
                             <div class="card-body">
@@ -124,34 +124,54 @@
                         <div class="card mb-4">
                             <div class="card-header">
                                 <i class="fas fa-chart-area me-1"></i>
-                                Area Chart Example
+                                -
                             </div>
                             <div class="card-body"><canvas id="myAreaChart" width="100%" height="30"></canvas></div>
-                            <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+                            <div class="card-footer small text-muted">Actualizado ayer a las 11:59 PM</div>
                         </div>
                         <div class="row">
                             <div class="col-lg-6">
                                 <div class="card mb-4">
                                     <div class="card-header">
                                         <i class="fas fa-chart-bar me-1"></i>
-                                        Bar Chart Example
+                                        -
                                     </div>
                                     <div class="card-body"><canvas id="myBarChart" width="100%" height="50"></canvas></div>
-                                    <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+                                    <div class="card-footer small text-muted">Actualizado ayer a las 11:59 PM</div>
                                 </div>
                             </div>
                             <div class="col-lg-6">
                                 <div class="card mb-4">
                                     <div class="card-header">
                                         <i class="fas fa-chart-pie me-1"></i>
-                                        Pie Chart Example
+                                        -
                                     </div>
                                     <div class="card-body"><canvas id="myPieChart" width="100%" height="50"></canvas></div>
-                                    <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+                                    <div class="card-footer small text-muted">Actualizado ayer a las 11:59 PM</div>
                                 </div>
                             </div>
                         </div>
                     </div>
+
+  <div class="container py-5">
+    <h2 class="mb-4">Sube tu archivo Excel de Riesgos</h2>
+    <form action="{{ url_for('upload') }}" method="POST" enctype="multipart/form-data">
+      <div class="mb-3">
+        <input type="file" name="file" class="form-control" accept=".xlsx" required>
+      </div>
+      <button type="submit" class="btn btn-primary">Procesar</button>
+    </form>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, msg in messages %}
+          <div class="alert alert-{{category}} mt-3">{{msg}}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+  </div>
+
+
                 </main>
                 <footer class="py-4 bg-light mt-auto">
                     <div class="container-fluid px-4">
