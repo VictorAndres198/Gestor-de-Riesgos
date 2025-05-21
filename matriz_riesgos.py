@@ -113,5 +113,9 @@ def error404():
 def error500():
     return render_template('500.html')  # Renderiza desde templates/
 
+@app.route('/inicio')
+def inicio():
+    return render_template('Inicio.html')  # Renderiza desde templates/
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
