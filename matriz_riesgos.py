@@ -67,11 +67,15 @@ def generate_matrix_image():
 @app.route('/')
 def index():
     generate_matrix_image()
-    return render_template('Inicio.html')
+    return render_template('index.html')
 
 @app.route('/image')
 def get_image():
     return send_file('static/risk_matrix.png', mimetype='image/png')
+
+@app.route('/charts')
+def charts():
+    return render_template('charts.html')  # Renderiza desde templates/
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
