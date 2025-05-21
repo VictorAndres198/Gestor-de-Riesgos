@@ -77,5 +77,41 @@ def get_image():
 def charts():
     return render_template('charts.html')  # Renderiza desde templates/
 
+@app.route('/login')
+def login():
+    return render_template('login.html')  # Renderiza desde templates/
+
+@app.route('/register')
+def register():
+    return render_template('register.html')  # Renderiza desde templates/
+
+@app.route('/tables')
+def tables():
+    return render_template('tables.html')  # Renderiza desde templates/
+
+@app.route('/password')
+def password():
+    return render_template('password.html')  # Renderiza desde templates/
+
+@app.route('/layoutsidenavlight')
+def layoutsidenavlight():
+    return render_template('layout-sidenav-light.html')  # Renderiza desde templates/
+
+@app.route('/layoutstatic')
+def layoutstatic():
+    return render_template('layout-static.html')  # Renderiza desde templates/
+
+@app.route('/error401')
+def error401():
+    return render_template('401.html')  # Renderiza desde templates/
+
+@app.route('/error404')
+def error404():
+    return render_template('404.html')  # Renderiza desde templates/
+
+@app.route('/error500')
+def error500():
+    return render_template('500.html')  # Renderiza desde templates/
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
